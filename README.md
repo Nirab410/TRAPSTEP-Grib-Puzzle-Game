@@ -1,174 +1,138 @@
-# 🌌 TRAPSTEP: Abyss Protocol
+# 🪤 TRAPSTEP
 
-> **"Step carefully. The ground is falling."**  
-> An ultra-polished, deterministic, grid-based tactical puzzle game engineered with pure vanilla web technologies and mathematical state-space validation.
+> **A minimalist grid puzzle game about falling floors, laser traps, and planning ahead.**
 
-[![JavaScript](https://img.shields.io/badge/Language-Vanilla%20JavaScript%20(ES6+)-F7DF1E?logo=javascript&logoColor=black)](#)
-[![Markup & Styling](https://img.shields.io/badge/Stack-HTML5%20%7C%20CSS3%20Grid-E34F26?logo=html5&logoColor=white)](#)
-[![Audio Engine](https://img.shields.io/badge/Audio-Procedural%20Web%20Audio%20API-4A90E2)](#)
-[![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20External%20Libraries-success)](#)
-[![Offline Capable](https://img.shields.io/badge/Architecture-100%25%20Offline%20Ready-brightgreen)](#)
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)](#)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)](#)
+[![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla%20ES6+-F7DF1E?logo=javascript&logoColor=black)](#)
+[![Web Audio](https://img.shields.io/badge/Sound-Web%20Audio%20API-4A90E2)](#)
+[![Offline Ready](https://img.shields.io/badge/Offline-100%25%20Ready-brightgreen)](#)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](#)
 
 ---
 
-## 📌 Executive Summary
+## 🎯 About the Game
 
-**TRAPSTEP: Abyss Protocol** is a hardcore, minimalist, grid-based puzzle game where every single step mutates the board. 
+**TRAPSTEP** is a simple yet challenging puzzle game. The goal is straightforward: guide your player from the green **START** tile to the golden **GOAL** tile.
 
-The player navigates from a green **START** tile to a radiant golden **GOAL** beacon. However, the foundational law of the universe is **Trail Collapse**: *every tile departed permanently crumbles into an impassable void*. 
+### The Main Twist
+**The floor crumbles behind you!** Every time you move onto a new tile, the tile you just left collapses into a bottomless hole. Because you cannot step on broken tiles or walls, one careless step can leave you completely trapped.
 
-As the campaign progresses, the game shifts from simple spatial navigation into a profound, multi-entity tactical brain-teaser featuring **Shadow Doppelgängers**, **Frictionless Ice Vectors**, **Quantum Wormholes**, **State-Parity Laser Barricades**, and **Cryptographic Key Enclosures**.
+As you advance through the **20 handcrafted levels**, new mechanics are introduced:
+* **Shadow Clones** that move in opposite directions and also break the floor
+* **Ice Tiles** that make you slide across the board
+* **Portals** that teleport you across the room
+* **Lasers & Switches** that block your path until turned off
+* **Keys** you must collect before the goal unlocks
+* **Reinforced Bridges** that can be crossed twice before breaking
 
-Every single level in the game is mathematically proven to be **100% solvable** via an integrated multi-entity Breadth-First Search (BFS) state-space solver.
+Every level has been tested and mathematically verified with an internal **pathfinding solver (BFS)** to guarantee it is 100% solvable.
 
 ---
 
-## 🕹️ Core Game Mechanics
+## 🧩 Tile Types & Mechanics
 
-```
- [START] ──> [ICE SLIDE] ──> [PORTAL α] ──> [LASER SWITCH] ──> [KEY 🔑] ──> [GOAL ★]
-                  │                              │
-          (Trail Collapse)              (Shadow Clone Mirror)
-```
-
-### Mechanics Reference Matrix
-
-| Mechanic | Symbol | Tactical Behavior |
+| Tile | Symbol | How it Works |
 |---|:---:|---|
-| **Trail Collapse** | `✖` | The departure tile instantly collapses into the abyss. Backtracking is physically impossible. |
-| **The Shadow Doppelgänger** | `👥` | A holographic clone mirrors your movements in real-time. Both bodies collapse ground behind them. If the clone falls into a void, hits a barrier, or touches a laser, you **instantly fail**. |
-| **Ice Momentum Vectors** | `❄️` | Entering an ice tile induces continuous frictionless sliding until colliding with a solid barrier. Traversed ice tiles crumble in a chain reaction. |
-| **Quantum Wormholes** | `🌀 α/β` | Stepping into Portal α instantly warps the entity to Portal β (and vice versa). The entrance portal permanently dissolves upon exit. |
-| **Laser Barricades** | `⚡` | Deadly high-energy laser grids that incinerate any entity attempting passage while active. |
-| **Step Switches** | `🔘` | Pressure plates toggled by either the player or the shadow clone to alternate laser grid states (`ACTIVE` $\leftrightarrow$ `DISABLED`). |
-| **Energy Keys & Vaults** | `🔑 / 🔒` | The Goal begins in a locked quarantine state (`🔒 LOCKED`). The player must route to the Key first, leaving an uncollapsed corridor to return to the Goal. |
-| **Reinforced Bridges** | `② / ①` | Multi-step tiles that withstand two crossings before falling, enabling complex knot, ribbon, and figure-8 paths. |
-| **Hazard Traps** | `▲` | Trigger tiles that initiate remote collateral collapses across distant corridors when stepped upon. |
+| **Start** | `START` | The starting position for your player. |
+| **Goal** | `★ GOAL` | The exit tile. Reach this tile to beat the level. |
+| **Crumbled Floor** | `✖` | The hole left behind when you step off a tile. Impassable. |
+| **Shadow Clone** | `👥` | A mirror clone that moves in the opposite direction. If it hits a wall, falls, or touches a laser, you lose! |
+| **Ice** | `❄️` | Makes you slide in a straight line until you hit an obstacle. The whole slide path breaks behind you! |
+| **Portals** | `🌀 α / β` | Teleports you from one portal to the other. The entrance collapses once you exit. |
+| **Laser Gate** | `⚡` | Deadly laser beams. Passing through while active will destroy your player. |
+| **Switch** | `🔘` | Step on it (or have your clone step on it) to toggle lasers on or off. |
+| **Key** | `🔑` | Collect this key to open locked goal tiles (`🔒 LOCKED`). |
+| **Bridge** | `② / ①` | A reinforced purple tile that can be stepped on twice before it breaks. |
+| **Trap Trigger** | `▲` | Stepping here triggers sudden collapses in nearby tiles. |
 
 ---
 
-## 🗺️ 20-Level Mastermind Campaign
+## 🗺️ Level Guide (20 Levels)
 
-The campaign features **20 handcrafted master levels** engineered with strict move budgets, speed runs, and layered mechanics:
+The game contains 20 progressive puzzle levels:
 
-| Level | Codename | Subtitle | Grid | Key Mechanics | Optimal Moves | States Explored |
-|:---:|---|---|:---:|---|:---:|:---:|
-| **01** | *Fractured Ground* | The Floor is Falling | 4×4 | Foundational Trail Collapse & Decoys | 6 | 21 |
-| **02** | *The Key Vault* | No Return Path | 5×5 | Energy Key 🔑 & Locked Goal 🔒 | 12 | 505 |
-| **03** | *Glacial Vector* | Momentum & Slide | 5×5 | Frictionless Ice Slide Physics (❄️) | 5 | 22 |
-| **04** | *Wormhole Drift* | Quantum Displacement | 5×5 | Quantum Portals α & β (🌀) | 6 | 56 |
-| **05** | *Laser Grid Lockdown* | Step-Parity Switching | 5×5 | Laser Barricades (⚡) & Switches (🔘) | 8 | 177 |
-| **06** | *The Doppelgänger* | Twin Synchronization | 5×5 | Shadow Clone (👥) Dual-Body Survival | 4 | 15 |
-| **07** | *Twin Symmetry* | Remote Clone Disarm | 5×5 | Remote Switch Disarm operated by Clone | 4 | 14 |
-| **08** | *Glacial Abyss* | Momentum & Quantum Knot | 6×6 | Ice Slides + Portals + 2-Step Bridges | 6 | 137 |
-| **09** | *Dual Laser Protocol* | Shadow Precision | 6×6 | Dual Lasers + Shadow Clone (25s Timer) | 9 | 437 |
-| **10** | *The Quantum Knot* | Multiphase Labyrinth | 6×6 | Double Portals + Double Bridges + Key | 11 | 4,748 |
-| **11** | *Mirror Velocity* | Extreme Dual Slide | 6×6 | Clone + Ice Slide + Laser Disarm | 7 | 66 |
-| **12** | *Abyss Protocol: Alpha* | Multi-Entity Crucible | 6×6 | Clone + Ice + Portals + Laser Gate | 9 | 109 |
-| **13** | *Hypercube Drift* | Quantum Momentum | 6×6 | Ice Slides + Portal Re-routing (14 Moves) | 5 | 38 |
-| **14** | *The Twin Paradox* | Asymmetric Mirroring | 6×6 | Shadow Clone + Laser Gate + 2-Step Bridges | 7 | 66 |
-| **15** | *Glacial Prison* | The Rebound Lock | 6×6 | Dual Ice Vectors + Key + 2-Step Bridge | 12 | 1,790 |
-| **16** | *Chrono Breakdown* | Speed Labyrinth | 6×6 | 18s Countdown + Key + Laser Gate + Portals | 13 | 6,827 |
-| **17** | *Binary Synchronization* | Dual 7×7 Chamber | 7×7 | 7×7 Shadow Clone + Laser + Bridges | 8 | 283 |
-| **18** | *Shadow Wormhole Matrix* | Dimensional Entanglement | 7×7 | 7×7 Clone + Key + Portals + Bridges (30s) | 12 | 1,564 |
-| **19** | *Event Horizon* | The Glacial Warp | 7×7 | 7×7 Ice Vectors + Portals + 22 Moves + 28s | 15 | 29,014 |
-| **20** | *The Final Abyss* | Singularity Grandmaster | 7×7 | **The Ultimate Crucible**: All mechanics combined | 12 | 696 |
+| Level | Name | Grid | What's New |
+|:---:|---|:---:|---|
+| **1** | *Fractured Ground* | 4×4 | Basic movement & crumbling floors |
+| **2** | *The Key Vault* | 5×5 | Collecting keys to unlock the goal |
+| **3** | *Glacial Vector* | 5×5 | Sliding across ice tiles |
+| **4** | *Wormhole Drift* | 5×5 | Teleporting between portals |
+| **5** | *Laser Grid Lockdown* | 5×5 | Using switches to turn off lasers |
+| **6** | *The Doppelgänger* | 5×5 | Controlling your shadow clone |
+| **7** | *Twin Symmetry* | 5×5 | Using the clone to hit distant switches |
+| **8** | *Glacial Abyss* | 6×6 | Combining ice slides, portals, and bridges |
+| **9** | *Dual Laser Protocol* | 6×6 | 25-second timer with dual lasers and clones |
+| **10** | *The Quantum Knot* | 6×6 | Complex figure-8 paths with double portals |
+| **11** | *Mirror Velocity* | 6×6 | Dual clone movement over ice slides |
+| **12** | *The Crucible* | 6×6 | Clones + ice + portals + lasers in one puzzle |
+| **13** | *Hypercube Drift* | 6×6 | Move-limited portal routing (14 moves) |
+| **14** | *The Twin Paradox* | 6×6 | Asymmetric clone puzzle with double bridges |
+| **15** | *Glacial Prison* | 6×6 | Ice rebounds and key retrieval |
+| **16** | *Chrono Breakdown* | 6×6 | Fast 18-second speed run |
+| **17** | *Binary Synchronization* | 7×7 | Large 7×7 clone and laser maze |
+| **18** | *Shadow Wormhole Matrix* | 7×7 | 7×7 clone + portals + keys (30s timer) |
+| **19** | *Event Horizon* | 7×7 | 7×7 ice vectors + portals + move budget |
+| **20** | *The Grand Finale* | 7×7 | The ultimate puzzle combining every mechanic |
 
-> **🎲 Endless Mode Included:** In addition to the 20 handcrafted levels, players can generate infinite procedurally verified boards using the built-in level generator and BFS validator.
+> **🎲 Endless Mode:** Want to keep playing? Click the **🗺️ Level Select** button and choose **"Play Endless Solvable Board"** for randomly generated, verified puzzles.
 
 ---
 
-## 🏗️ Technical Architecture & Engineering
+## 💻 Tech Stack & Architecture
 
-TRAPSTEP is engineered strictly with native web standards—**no frameworks, no bundlers, no external dependencies, and zero remote asset fetches**.
+TRAPSTEP is built purely with standard web technologies. No React, no Vue, no Webpack, no external libraries, and no internet connection required.
 
 ```
 d:/Demo/
-├── index.html        # Semantic HTML5 markup, HUD layout, accessible dialogs & D-Pad
-├── style.css         # CSS Variables, Dark/Light Themes, 60fps GPU Keyframe animations
-├── README.md         # Comprehensive engineering & system documentation
+├── index.html        # Clean semantic HTML5 layout & modal dialogs
+├── style.css         # Modern dark/light theme, responsive grid & animations
+├── README.md         # Documentation
 └── js/
-    ├── audio.js      # Procedural Web Audio API synthesis engine (zero audio asset files)
-    ├── solver.js     # Exact multi-entity BFS state-space pathfinding & validation engine
-    ├── levels.js     # Handcrafted level configurations & rule matrices (Levels 1-20)
-    ├── generator.js  # Procedural level generator with live BFS solvability validation
-    └── game.js       # Core state machine, multi-entity physics, inputs & localStorage
+    ├── audio.js      # Procedural sound effects using Web Audio API (no .mp3 files needed)
+    ├── solver.js     # Built-in BFS pathfinding solver to guarantee levels are solvable
+    ├── levels.js     # Level data for all 20 levels
+    ├── generator.js  # Endless mode generator with solver verification
+    └── game.js       # Core game loop, inputs, animations, and localStorage save system
 ```
 
-### Architectural Highlights
-
-1. **Deterministic State-Space BFS Solver (`js/solver.js`)**:
-   - Represents grid states using a compact `BigInt` bitmask (`1n << BigInt(idx)`) for $O(1)$ collision and visitation checks.
-   - Evaluates full multi-entity state tuples:
-     $$\mathcal{S} = \big( \mathbf{p}_{\text{player}}, \mathbf{p}_{\text{shadow}}, \mathcal{M}_{\text{blocked}}, \mathcal{D}_{\text{durability}}, \kappa_{\text{key}}, \lambda_{\text{laser}} \big)$$
-   - Verifies the existence of an optimal solution path before allowing the player to engage with any generated or custom stage.
-
-2. **Procedural Web Audio Synthesizer (`js/audio.js`)**:
-   - Generates all dynamic sound effects in real-time via `AudioContext`, `OscillatorNode`, and `GainNode`.
-   - Includes custom frequency-modulated acoustic signatures for:
-     - Footsteps (sine frequency drop)
-     - Shadow clone movement (harmonic double resonance)
-     - Ice momentum sliding (frequency linear ramp)
-     - Quantum portal warp (exponential sweep)
-     - Laser switches (square wave snap)
-     - Key retrieval (triad arpeggio: D5 $\to$ A5 $\to$ D6)
-     - Collapse crunch (filtered white noise + sub-triangle wave)
-
-3. **Sub-Pixel Responsive Alignment (`ResizeObserver`)**:
-   - Uses `ResizeObserver` with `getBoundingClientRect()` to compute exact offset transforms (`translate3d(x, y, 0)`), guaranteeing that the player and shadow tokens remain pixel-perfect across viewport resizes and mobile device orientations.
-
-4. **Persistence Engine (`localStorage`)**:
-   - Persists unlocked levels, star achievements ($1 \star - 3 \star$), move efficiency metrics, speedrun records, theme preferences, and audio toggle states.
+### Key Technical Details
+1. **Built-in Solver (`js/solver.js`):** Uses Breadth-First Search (BFS) with bitmasks to test and verify every puzzle in milliseconds before the player starts.
+2. **Procedural Web Audio (`js/audio.js`):** Generates all sound effects (steps, clicks, slides, warps, victory fanfares) directly using code and oscillators. Zero audio file downloads.
+3. **Local Storage:** High scores, best moves, fastest times, stars, and dark/light theme preferences are saved in your browser automatically.
+4. **Responsive:** Works smoothly on desktop and mobile screens.
 
 ---
 
-## 🎮 Controls & Accessibility
+## 🎮 How to Play & Controls
 
-* **Keyboard Controls:**
-  * `W, A, S, D` or `Arrow Keys (↑, ↓, ←, →)` — Move Avatar
-  * `R` — Instant Level Restart
-  * `Escape` — Close Modals / Level Select
-* **Mouse & Pointer:**
-  * **Direct Click / Tap** — Click on any valid adjacent tile to move directly there
-* **Touch & Mobile:**
-  * **Swipe Gestures** — Touch swipe in any direction (`UP`, `DOWN`, `LEFT`, `RIGHT`)
-  * **On-Screen D-Pad** — Floating tactile glassmorphic directional pad
-
----
-
-## 🚀 Getting Started
-
-No installation, build tools, or server dependencies required.
-
-### Instant Execution
-Simply double-click [`index.html`](file:///d:/Demo/index.html) or open it in any modern web browser.
-
-### Local Development Server (Optional)
-If running via a local development server:
-```bash
-# Using Python
-python -m http.server 8080
-
-# Using Node.js
-npx serve .
-```
-Navigate to `http://localhost:8080` in your browser.
+* **Keyboard:**
+  * `Arrow Keys` or `W, A, S, D` — Move
+  * `R` — Restart level
+  * `Escape` — Close menu / level select
+* **Mouse:** Click or tap any adjacent tile to step there.
+* **Mobile / Touch:**
+  * **Swipe** anywhere on the screen to move
+  * **On-Screen D-Pad** buttons at the bottom of the screen
 
 ---
 
-## 🌓 Visual Customization
+## 🚀 How to Run the Game
 
-* **Theme Switching:** Toggle between **Cyber Dark** (`🌙`) and **Clean Light** (`☀️`) via the top-right header control.
-* **Audio Switch:** Toggle procedural sound effects on/off (`🔊` / `🔇`) instantly with saved preference.
-* **Level Selector:** Open the Level Drawer (`🗺️`) at any time to replay cleared stages or launch Endless Mode.
+1. Download or clone this folder.
+2. Double-click [`index.html`](file:///d:/Demo/index.html) to open it directly in any browser (Chrome, Edge, Firefox, Safari).
+3. That's it! No installations or local servers needed.
+
+---
+
+## 🌓 Themes & Sound
+
+* **Theme Toggle:** Click the `🌙` / `☀️` button in the top right to switch between Dark Mode and Light Mode.
+* **Sound Toggle:** Click the `🔊` / `🔇` button to mute or unmute audio.
+* **Level Select:** Click `🗺️` to replay any unlocked level or jump into Endless Mode.
 
 ---
 
 ## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-*Engineered with precision for puzzle enthusiasts.*
+Open source under the [MIT License](LICENSE).
