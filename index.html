@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TRAPSTEP - Grid Puzzle Game</title>
+    <meta name="description" content="A polished, minimalist grid-based puzzle game. Step carefully, every move changes the board!">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="ambient-bg"></div>
+    <canvas id="confettiCanvas"></canvas>
+
+    <div class="game-container">
+        <!-- Header -->
+        <header class="game-header">
+            <div class="brand-section">
+                <h1 class="brand-title">
+                    <span class="logo-dot"></span>
+                    TRAPSTEP
+                </h1>
+                <span class="brand-subtitle">Step carefully. The ground is falling.</span>
+            </div>
+            <div class="top-actions">
+                <button id="themeToggleBtn" class="icon-btn" title="Toggle Theme" aria-label="Toggle Theme">🌓</button>
+                <button id="soundToggleBtn" class="icon-btn" title="Toggle Sound" aria-label="Toggle Sound">🔊</button>
+                <button id="helpBtn" class="icon-btn" title="How to Play" aria-label="How to Play">❓</button>
+                <button id="levelSelectBtn" class="icon-btn" title="Select Level" aria-label="Select Level">🗺️</button>
+            </div>
+        </header>
+
+        <!-- HUD Panel -->
+        <section class="hud-panel">
+            <div class="hud-top-row">
+                <div class="level-badge-container">
+                    <span id="levelBadge" class="level-badge">LVL 1</span>
+                    <div class="level-name-group">
+                        <span id="levelTitle" class="level-name">Introduction</span>
+                        <span id="levelSubtitle" class="level-sub">The Floor is Falling</span>
+                    </div>
+                </div>
+                <div class="hud-stats-group">
+                    <div class="stat-item" id="movesItem">
+                        <span class="stat-label">Moves</span>
+                        <span id="movesValue" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item" id="remainingMovesItem" style="display: none;">
+                        <span class="stat-label">Remaining</span>
+                        <span id="remainingMovesValue" class="stat-value">12</span>
+                    </div>
+                    <div class="stat-item" id="timerItem" style="display: none;">
+                        <span class="stat-label">Time</span>
+                        <span id="timerValue" class="stat-value">15.0s</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timer Progress Bar -->
+            <div id="timerBarWrapper" class="timer-bar-wrapper">
+                <div id="timerBarFill" class="timer-bar-fill"></div>
+            </div>
+        </section>
+
+        <!-- Tutorial / Instruction Alert -->
+        <div id="tutorialBanner" class="tutorial-banner">
+            <span class="tutorial-icon">💡</span>
+            <span id="tutorialText">Tiles crumble behind you as you move! Plan your route to the Golden Goal.</span>
+        </div>
+
+        <!-- Game Board Container -->
+        <main class="board-wrapper" id="boardWrapper">
+            <div class="game-board" id="gameBoard">
+                <!-- Tiles dynamically generated -->
+            </div>
+            <!-- Animated Player Avatar Token -->
+            <div class="player-token" id="playerToken">
+                <div class="player-avatar"></div>
+            </div>
+            <!-- Animated Shadow Doppelgänger Token -->
+            <div class="shadow-token" id="shadowToken">
+                <div class="shadow-avatar"></div>
+            </div>
+        </main>
+
+        <!-- Bottom Controls & Action Buttons -->
+        <footer class="bottom-bar">
+            <button id="restartBtn" class="action-btn" title="Restart Level (R)">
+                <span>🔄</span> Restart
+            </button>
+            <button id="undoBtn" class="action-btn" title="Undo Move (U)" style="display: none;">
+                <span>↩️</span> Undo
+            </button>
+            <button id="resetGameBtn" class="action-btn" title="Reset All Progress">
+                <span>⚠️</span> Reset Game
+            </button>
+        </footer>
+
+        <!-- Mobile Touch D-Pad -->
+        <nav class="dpad-container" id="dpadContainer" aria-label="Directional Controls">
+            <button class="dpad-btn" data-dir="UP" aria-label="Up">▲</button>
+            <div class="dpad-middle-row">
+                <button class="dpad-btn" data-dir="LEFT" aria-label="Left">◀</button>
+                <button class="dpad-btn" data-dir="DOWN" aria-label="Down">▼</button>
+                <button class="dpad-btn" data-dir="RIGHT" aria-label="Right">▶</button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- WIN MODAL -->
+    <div id="winModal" class="modal-backdrop">
+        <div class="modal-dialog">
+            <div class="modal-body">
+                <div class="win-banner">
+                    <span class="win-icon">🏆</span>
+                    <h2 class="win-title">LEVEL CLEARED!</h2>
+                    <div class="win-stars" id="winStars">★★★</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stats-cell">
+                        <span class="stats-cell-label">Moves Made</span>
+                        <span id="winMoves" class="stats-cell-val">8</span>
+                    </div>
+                    <div class="stats-cell">
+                        <span class="stats-cell-label">Best Moves</span>
+                        <span id="winBestMoves" class="stats-cell-val">8</span>
+                    </div>
+                    <div class="stats-cell">
+                        <span class="stats-cell-label">Time Taken</span>
+                        <span id="winTime" class="stats-cell-val">4.2s</span>
+                    </div>
+                    <div class="stats-cell">
+                        <span class="stats-cell-label">Fastest Record</span>
+                        <span id="winBestTime" class="stats-cell-val">4.2s</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="winReplayBtn" class="action-btn">Replay</button>
+                <button id="winNextBtn" class="action-btn primary">Next Level ➔</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOSE MODAL -->
+    <div id="loseModal" class="modal-backdrop">
+        <div class="modal-dialog">
+            <div class="modal-body">
+                <div class="lose-banner">
+                    <span class="lose-icon">💀</span>
+                    <h2 class="lose-title" id="loseTitle">TRAPPED!</h2>
+                    <p class="lose-reason" id="loseReason">You have no valid moves left. The floor gave way!</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stats-cell">
+                        <span class="stats-cell-label">Moves Attempted</span>
+                        <span id="loseMoves" class="stats-cell-val">5</span>
+                    </div>
+                    <div class="stats-cell">
+                        <span class="stats-cell-label">Current Level</span>
+                        <span id="loseLevel" class="stats-cell-val">Level 1</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="loseSelectBtn" class="action-btn">Levels</button>
+                <button id="loseRetryBtn" class="action-btn primary">Try Again 🔄</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LEVEL SELECT MODAL -->
+    <div id="levelModal" class="modal-backdrop">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Select Level</h3>
+                <button id="closeLevelModalBtn" class="icon-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="level-select-grid" id="levelSelectGrid">
+                    <!-- Dynamic level cards -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="playEndlessBtn" class="action-btn primary" style="width: 100%;">
+                    <span>🎲</span> Play Endless Solvable Board
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HOW TO PLAY / TUTORIAL MODAL -->
+    <div id="helpModal" class="modal-backdrop">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">How to Play TRAPSTEP</h3>
+                <button id="closeHelpModalBtn" class="icon-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <div style="display:flex; flex-direction:column; gap:12px;">
+                    <div>
+                        <strong style="color:var(--accent-player);">🎯 Objective:</strong>
+                        <p>Move your avatar from the green <strong style="color:var(--accent-start);">START</strong> tile to the golden <strong style="color:var(--accent-goal);">★ GOAL</strong> tile.</p>
+                    </div>
+                    <div>
+                        <strong style="color:var(--accent-hazard);">⚡ Trail Collapse:</strong>
+                        <p>Every tile you step OFF crumbles permanently into the abyss! You cannot step on collapsed tiles or static walls.</p>
+                    </div>
+                    <div>
+                        <strong style="color:#ec4899;">👥 The Shadow Doppelgänger:</strong>
+                        <p>Your holographic clone moves in mirror reflection to you! Both of you collapse tiles behind you. If your clone hits a wall, falls into a void, or touches a laser, you <strong>FAIL</strong>!</p>
+                    </div>
+                    <div>
+                        <strong style="color:#38bdf8;">❄️ Ice Momentum (Slide):</strong>
+                        <p>Stepping on ice slides you until hitting a wall, collapsing every ice tile you slide through in a chain reaction!</p>
+                    </div>
+                    <div>
+                        <strong style="color:#c084fc;">🌀 Quantum Wormholes (Portals):</strong>
+                        <p>Entering Portal <strong>α</strong> instantly teleports you to Portal <strong>β</strong> (and vice versa). The entrance crumbles upon exit.</p>
+                    </div>
+                    <div>
+                        <strong style="color:#ef4444;">⚡ Laser Gates & Switches:</strong>
+                        <p>Deadly laser grids block passages. Step on <strong>🔘 SWITCH</strong> plates (or have your clone step on them) to toggle lasers on/off.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="closeHelpBtn2" class="action-btn primary" style="width: 100%;">Got It! Let's Play</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts in order -->
+    <script src="js/audio.js"></script>
+    <script src="js/solver.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/generator.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
